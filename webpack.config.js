@@ -70,7 +70,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    libraryTarget: 'commonjs',
+    libraryTarget: 'commonjs2',
     clean: true,
   },
 };

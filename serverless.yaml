@@ -1,7 +1,10 @@
-service: 'aws-ws-request-service'
+service: 'sumdu-ws-request-service'
+
+useDotenv: true
 
 provider:
   name: aws
+  stage: prod
   runtime: nodejs16.x
   region: 'eu-central-1'
   architecture: arm64
@@ -9,13 +12,10 @@ provider:
   memorySize: 1024
   deploymentMethod: 'direct'
   versionFunctions: false
-  tags:
-    app: platform
-    env: '${opt:stage}'
   iam:
     role:
-      name: '${self:service}-${opt:stage}'
-      path: '/lambda-${opt:stage}/'
+      name: '${self:service}-${self:provider.stage}'
+      path: '/lambda-${self:provider.stage}/'
       statements:
         - Effect: 'Allow'
           Resource:
@@ -29,10 +29,10 @@ provider:
             - 'dynamodb:UpdateItem'
             - 'dynamodb:DeleteItem'
       tags:
-        app: praedia
-        env: '${opt:stage}'
+        app: sumdu-workshop
+        env: '${self:provider.stage}'
   environment:
-    ENVIRONMENT: '${opt:stage}'
+    ENVIRONMENT: '${self:provider.stage}'
     WS_REQUESTS_DYNAMODB_TABLE: '${env:WS_REQUESTS_DYNAMODB_TABLE}'
     NO_COLOR: true
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
@@ -44,6 +44,13 @@ plugins:
 functions:
   entrypoint:
     handler: src/index.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
 
 custom:
   webpack:
