@@ -1,0 +1,2 @@
+export const AWS_DYNAMODB_API_VERSION = '2012-08-10';
+export const AWS_CONFIG = 'AWS_CONFIG';
