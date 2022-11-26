@@ -1,6 +1,5 @@
 export type TRequest<T extends Record<string, any>> = {
-  requestId: string;
-  type: string;
+  id: string;
   email: string;
   payload: T;
   createdAt: number;

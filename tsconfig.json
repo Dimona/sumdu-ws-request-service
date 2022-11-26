@@ -29,8 +29,6 @@
       "@app/*": ["src/app/*"],
       "@requests/": ["src/requests"],
       "@requests/*": ["src/requests/*"],
-      "@aws/": ["src/aws"],
-      "@aws/*": ["src/aws/*"],
       "@utils/": ["src/utils"],
       "@utils/*": ["src/utils/*"]
     }
