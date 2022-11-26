@@ -33,8 +33,7 @@ provider:
         env: '${self:provider.stage}'
   environment:
     ENVIRONMENT: '${self:provider.stage}'
-    WS_REQUESTS_DYNAMODB_TABLE: '${env:WS_REQUESTS_DYNAMODB_TABLE}'
-    NO_COLOR: true
+    WS_WEATHER_REQUESTS_DYNAMODB_TABLE: '${env:WS_WEATHER_REQUESTS_DYNAMODB_TABLE}'
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
 
 plugins:

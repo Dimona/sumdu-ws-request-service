@@ -17,7 +17,7 @@ export const awsDynamodbConfig = registerAs(AWS_DYNAMODB_CONFIG, () => {
     connections: {
       [REQUESTS]: {
         table: new Table({
-          name: `${process.env.MOCK_DYNAMODB_ENDPOINT ? 'ws-requests-test' : process.env.WS_REQUESTS_DYNAMODB_TABLE}`,
+          name: `${process.env.MOCK_DYNAMODB_ENDPOINT ? 'ws-weather-requests-test' : process.env.WS_REQUESTS_DYNAMODB_TABLE}`,
           partitionKey: 'id',
         }),
         entities: [WeatherRequestEntity],
