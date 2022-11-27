@@ -3,6 +3,7 @@ import { CreateRequestDto } from '@requests/dto/create.request.dto';
 import { WeatherRequestEntity } from '@requests/entities/weather.request.entity';
 import { REQUESTS } from '@requests/constants/request.constants';
 import { AwsDynamodbService } from '@workshop/lib-nest-aws/dist/services/dynamodb';
+import { RequestStatus } from '@requests/enums/request.enums';
 
 @Injectable()
 export class RequestService {
@@ -16,6 +17,7 @@ export class RequestService {
         new WeatherRequestEntity({
           id: WeatherRequestEntity.buildRequestId({ longitude, latitude }),
           email,
+          status: RequestStatus.DONE,
           payload: { latitude, longitude },
         }),
       );

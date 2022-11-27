@@ -1,5 +1,5 @@
 import { TRequest, TWeatherPayload } from '@requests/types/request.types';
-import { RequestType } from '@requests/enums/request.enums';
+import { RequestStatus } from '@requests/enums/request.enums';
 import { Attribute, AUTO_GENERATE_ATTRIBUTE_STRATEGY, AutoGenerateAttribute, Entity } from '@typedorm/common';
 import { default as crypto } from 'crypto';
 import { AwsDynamodbEntity } from '@workshop/lib-nest-aws/dist/services/dynamodb';
@@ -25,6 +25,9 @@ export class WeatherRequestEntity extends AwsDynamodbEntity<TRequest<TWeatherPay
     autoUpdate: true, // this will make this attribute and any indexes referencing it auto update for any write operation
   })
   updatedAt?: number;
+
+  @Attribute({ isEnum: true })
+  status: RequestStatus;
 
   @Attribute()
   payload: TWeatherPayload;
