@@ -12,13 +12,18 @@ export const awsDynamodbConfig = registerAs(AWS_DYNAMODB_CONFIG, () => {
     client: {
       apiVersion: process.env.AWS_DYNAMODB_API_VERSION || AWS_DYNAMODB_API_VERSION,
       endpoint: env === 'local' ? process.env.DYNAMODB_LOCAL : undefined,
-      retryMode: 'standard'
+      retryMode: 'standard',
     },
     connections: {
       [REQUESTS]: {
         table: new Table({
-          name: `${process.env.MOCK_DYNAMODB_ENDPOINT ? 'ws-weather-requests-test' : process.env.WS_WEATHER_REQUESTS_DYNAMODB_TABLE}`,
+          name: `${
+            process.env.MOCK_DYNAMODB_ENDPOINT
+              ? 'ws-weather-requests-test'
+              : process.env.WS_WEATHER_REQUESTS_DYNAMODB_TABLE
+          }`,
           partitionKey: 'id',
+          sortKey: 'targetDate',
         }),
         entities: [WeatherRequestEntity],
       },

@@ -8,11 +8,18 @@ import { AwsDynamodbEntity } from '@workshop/lib-nest-aws/dist/services/dynamodb
   name: 'WeatherRequest',
   primaryKey: {
     partitionKey: '{{id}}',
+    sortKey: '{{targetDate}}',
   },
 })
 export class WeatherRequestEntity extends AwsDynamodbEntity<TRequest<TWeatherPayload>> {
   @Attribute({ unique: true })
   id: string;
+
+  @Attribute()
+  targetDate: string;
+
+  @Attribute()
+  email: string;
 
   @AutoGenerateAttribute({
     strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
@@ -30,9 +37,18 @@ export class WeatherRequestEntity extends AwsDynamodbEntity<TRequest<TWeatherPay
   status: RequestStatus;
 
   @Attribute()
+  expireAt?: number;
+
+  @Attribute()
   payload: TWeatherPayload;
 
-  static buildRequestId({ latitude, longitude }: { latitude: number; longitude: number }): string {
-    return crypto.createHash('shake256', { outputLength: 10 }).update(`${latitude}|${longitude}`).digest('hex');
+  @Attribute()
+  nextTime: number;
+
+  static buildRequestId(email: string, { latitude, longitude }: { latitude: number; longitude: number }): string {
+    return crypto
+      .createHash('shake256', { outputLength: 10 })
+      .update(`${email}|${latitude}|${longitude}`)
+      .digest('hex');
   }
 }

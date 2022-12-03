@@ -1,4 +1,5 @@
-import { IsEmail, IsLatitude, IsLongitude, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsEmail, IsLatitude, IsLongitude, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { WEATHER_DATE_DEFAULT_FORMAT, WeatherDate } from '@requests/validators/weather-date.validator';
 
 export class CreateRequestDto {
   @IsNotEmpty()
@@ -15,4 +16,8 @@ export class CreateRequestDto {
   @IsNumber()
   @IsLongitude()
   longitude: number;
+
+  @IsNotEmpty()
+  @WeatherDate(WEATHER_DATE_DEFAULT_FORMAT)
+  targetDate: string;
 }
