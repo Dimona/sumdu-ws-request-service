@@ -1,11 +1,12 @@
 {
   "name": "sumdu-ws-request-service",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SumDU workshop request-service",
   "author": "Dmytro Ieremenko",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "co:login": "aws codeartifact login --tool npm --repository workshop --domain sumdu-ws --domain-owner 316316143441 --region eu-central-1",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

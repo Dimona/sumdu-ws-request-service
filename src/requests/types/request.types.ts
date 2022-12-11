@@ -12,7 +12,17 @@ export type TRequest<T extends Record<string, any>> = {
   expireAt: number;
 };
 
-export type TWeatherPayload = {
+export type WeatherPayload = {
   longitude: number;
   latitude: number;
+};
+
+export type WeatherInfo = {
+  temperature: number;
+  windSpeed: number;
+  windDirection: string;
+  precipitation: string;
+  sunrise: string;
+  sunset: string;
+  icon: string;
 };

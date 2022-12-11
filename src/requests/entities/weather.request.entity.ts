@@ -1,8 +1,15 @@
-import { TRequest, TWeatherPayload } from '@requests/types/request.types';
+import { TRequest, WeatherPayload, WeatherInfo } from '@requests/types/request.types';
 import { RequestStatus } from '@requests/enums/request.enums';
-import { Attribute, AUTO_GENERATE_ATTRIBUTE_STRATEGY, AutoGenerateAttribute, Entity } from '@typedorm/common';
+import {
+  Attribute,
+  AUTO_GENERATE_ATTRIBUTE_STRATEGY,
+  AutoGenerateAttribute,
+  Entity,
+  INDEX_TYPE,
+} from '@typedorm/common';
 import { default as crypto } from 'crypto';
 import { AwsDynamodbEntity } from '@workshop/lib-nest-aws/dist/services/dynamodb';
+import { statusNextTimeIndex } from '@requests/constants/request.constants';
 
 @Entity({
   name: 'WeatherRequest',
@@ -10,8 +17,15 @@ import { AwsDynamodbEntity } from '@workshop/lib-nest-aws/dist/services/dynamodb
     partitionKey: '{{id}}',
     sortKey: '{{targetDate}}',
   },
+  indexes: {
+    [statusNextTimeIndex]: {
+      partitionKey: '{{status}}',
+      sortKey: '{{nextTime}}',
+      type: INDEX_TYPE.GSI,
+    },
+  },
 })
-export class WeatherRequestEntity extends AwsDynamodbEntity<TRequest<TWeatherPayload>> {
+export class WeatherRequestEntity extends AwsDynamodbEntity<TRequest<WeatherPayload>> {
   @Attribute({ unique: true })
   id: string;
 
@@ -23,7 +37,7 @@ export class WeatherRequestEntity extends AwsDynamodbEntity<TRequest<TWeatherPay
 
   @AutoGenerateAttribute({
     strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
-    autoUpdate: false, // this will make this attribute and any indexes referencing it auto update for any write operation
+    autoUpdate: true, // this will make this attribute and any indexes referencing it auto update for any write operation
   })
   createdAt?: number;
 
@@ -33,17 +47,22 @@ export class WeatherRequestEntity extends AwsDynamodbEntity<TRequest<TWeatherPay
   })
   updatedAt?: number;
 
-  @Attribute({ isEnum: true })
-  status: RequestStatus;
-
   @Attribute()
-  expireAt?: number;
-
-  @Attribute()
-  payload: TWeatherPayload;
+  status: string;
 
   @Attribute()
   nextTime: number;
+
+  @Attribute()
+  expireAt?: number;
+  @Attribute()
+  payload: WeatherPayload;
+
+  @Attribute()
+  error?: any;
+
+  @Attribute()
+  data?: WeatherInfo;
 
   static buildRequestId(email: string, { latitude, longitude }: { latitude: number; longitude: number }): string {
     return crypto

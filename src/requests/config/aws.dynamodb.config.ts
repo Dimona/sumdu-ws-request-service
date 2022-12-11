@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import { AWS_DYNAMODB_CONFIG } from '@requests/types/aws.dynamodb.types';
 import { WeatherRequestEntity } from '@requests/entities/weather.request.entity';
-import { Table } from '@typedorm/common';
-import { REQUESTS } from '@requests/constants/request.constants';
+import { INDEX_TYPE, Table } from '@typedorm/common';
+import { REQUESTS, statusNextTimeIndex } from '@requests/constants/request.constants';
 import { AWS_DYNAMODB_API_VERSION, AwsDynamodbModuleOptions } from '@workshop/lib-nest-aws/dist/services/dynamodb';
 
 export const awsDynamodbConfig = registerAs(AWS_DYNAMODB_CONFIG, () => {
@@ -24,6 +24,13 @@ export const awsDynamodbConfig = registerAs(AWS_DYNAMODB_CONFIG, () => {
           }`,
           partitionKey: 'id',
           sortKey: 'targetDate',
+          indexes: {
+            [statusNextTimeIndex]: {
+              type: INDEX_TYPE.GSI,
+              partitionKey: 'status',
+              sortKey: 'nextTime',
+            },
+          },
         }),
         entities: [WeatherRequestEntity],
       },

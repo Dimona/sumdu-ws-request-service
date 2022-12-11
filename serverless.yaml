@@ -1,4 +1,4 @@
-service: 'sumdu-ws-request-service'
+service: sumdu-ws-request-service
 
 useDotenv: true
 
@@ -6,34 +6,35 @@ provider:
   name: aws
   stage: prod
   runtime: nodejs16.x
-  region: 'eu-central-1'
+  region: eu-central-1
   architecture: arm64
   timeout: 60
   memorySize: 1024
-  deploymentMethod: 'direct'
+  deploymentMethod: direct
   versionFunctions: false
   iam:
     role:
-      name: '${self:service}-${self:provider.stage}'
-      path: '/lambda-${self:provider.stage}/'
+      name: ${self:service}-${self:provider.stage}
+      path: /lambda-${self:provider.stage}/
       statements:
-        - Effect: 'Allow'
+        - Effect: Allow
           Resource:
-            - 'arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${env:WS_WEATHER_REQUESTS_DYNAMODB_TABLE}'
+            - arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${env:WS_WEATHER_REQUESTS_DYNAMODB_TABLE}
+            - arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${env:WS_WEATHER_REQUESTS_DYNAMODB_TABLE}/index/*
           Action:
-            - 'dynamodb:DescribeTable'
-            - 'dynamodb:Query'
-            - 'dynamodb:Scan'
-            - 'dynamodb:GetItem'
-            - 'dynamodb:PutItem'
-            - 'dynamodb:UpdateItem'
-            - 'dynamodb:DeleteItem'
+            - dynamodb:DescribeTable
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
       tags:
         app: sumdu-workshop
-        env: '${self:provider.stage}'
+        env: ${self:provider.stage}
   environment:
-    ENVIRONMENT: '${self:provider.stage}'
-    WS_WEATHER_REQUESTS_DYNAMODB_TABLE: '${env:WS_WEATHER_REQUESTS_DYNAMODB_TABLE}'
+    ENVIRONMENT: ${self:provider.stage}
+    WS_WEATHER_REQUESTS_DYNAMODB_TABLE: ${env:WS_WEATHER_REQUESTS_DYNAMODB_TABLE}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
 
 plugins:
@@ -53,6 +54,6 @@ functions:
 
 custom:
   webpack:
-    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    webpackConfig: webpack.config.js # Name of webpack configuration file
     includeModules: true # Node modules configuration for packaging
-    packager: 'npm' # Packager that will be used to package your external modules
+    packager: npm # Packager that will be used to package your external modules
