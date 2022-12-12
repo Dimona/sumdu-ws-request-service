@@ -44,7 +44,7 @@ export class RequestService {
     }
   }
 
-  delete(id: string): Promise<{ success: boolean }> {
-    return this.weatherRequestService.delete(id);
+  delete(id: string, targetDate: string): Promise<{ success: boolean }> {
+    return this.weatherRequestService.delete(id, targetDate);
   }
 }
