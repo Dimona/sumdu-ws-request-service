@@ -29,8 +29,6 @@
       "@app/*": ["src/app/*"],
       "@requests/": ["src/requests"],
       "@requests/*": ["src/requests/*"],
-      "@utils/": ["src/utils"],
-      "@utils/*": ["src/utils/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

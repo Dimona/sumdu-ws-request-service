@@ -1,6 +1,7 @@
 import { ValidationArguments } from 'class-validator';
-import { WEATHER_DATE_DEFAULT_FORMAT, WeatherDateConstraint } from '@requests/validators/weather-date.validator';
+import { WeatherDateConstraint } from './weather-date.validator';
 import dayjs from 'dayjs';
+import { WEATHER_DATE_DEFAULT_FORMAT } from '@workshop/lib-nest-weather-request';
 
 let constraint: WeatherDateConstraint;
 

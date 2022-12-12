@@ -1,14 +1,14 @@
-import {Body, Controller, Delete, Param, Post} from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { CreateWeatherRequestDto } from '@requests/dto/create.weather-request.dto';
 import { RequestService } from '@requests/services/request.service';
-import { CreateRequestDto } from '@requests/dto/create.request.dto';
-import { WeatherRequestEntity } from '@requests/entities/weather.request.entity';
+import { WeatherRequestEntity } from '@workshop/lib-nest-weather-request';
 
 @Controller('requests')
 export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
   @Post()
-  async create(@Body() body: CreateRequestDto): Promise<WeatherRequestEntity> {
+  async create(@Body() body: CreateWeatherRequestDto): Promise<WeatherRequestEntity> {
     return this.requestService.create(body);
   }
 

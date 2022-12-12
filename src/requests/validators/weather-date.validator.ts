@@ -7,10 +7,10 @@ import {
 } from 'class-validator';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { WEATHER_DATE_DEFAULT_FORMAT } from '@workshop/lib-nest-weather-request';
 
 const name = 'weatherDate';
 
-export const WEATHER_DATE_DEFAULT_FORMAT = 'DD.MM.YYYY';
 dayjs.extend(customParseFormat);
 
 @ValidatorConstraint({ name })
