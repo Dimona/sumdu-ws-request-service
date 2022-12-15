@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: true, whitelist: true }));
   app.enableCors();
 
-  const port = (app.get(ConfigService).get<number>('PORT')) || DEFAULT_PORT;
+  const port = app.get(ConfigService).get<number>('PORT') || DEFAULT_PORT;
 
   await app.listen(port, () => {
     Logger.log(`Server is listening on ${port} port`, 'NestApplication');
